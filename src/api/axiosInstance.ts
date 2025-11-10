@@ -3,7 +3,7 @@ import { store } from '../store'
 import { refreshToken as apiRefresh } from './auth'
 import { getRefreshToken, saveRefreshToken } from '../storage'
 import { setCredentials, logout } from '../store/authSlice'
-import { API_URL } from '@env'
+const API_URL = process.env.API_URL
 
 const axiosInstance = axios.create({
     baseURL: API_URL || 'http://localhost:3000',
