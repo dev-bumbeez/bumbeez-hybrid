@@ -1,12 +1,17 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from './src/store';
-import AppNavigator from './src/navigation/AppNavigator';
+import React from 'react'
+import { Provider } from 'react-redux'
+import { store } from './src/store'
+import AppNavigator from './src/navigation/AppNavigator'
+import './src/i18n/i18n'
+import { PaperProvider } from 'react-native-paper'
+import BumbeezPaperTheme from './src/themes/paperTheme'
 
 export default function App() {
-  return (
-    <Provider store={store}>
-      <AppNavigator />
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <PaperProvider theme={BumbeezPaperTheme}>
+                <AppNavigator />
+            </PaperProvider>
+        </Provider>
+    )
 }

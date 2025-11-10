@@ -1,13 +1,13 @@
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from 'expo-secure-store'
 
 export async function saveRefreshToken(token: string) {
-  await SecureStore.setItemAsync('refreshToken', token);
+    await SecureStore.setItemAsync('refreshToken', token)
 }
 
 export async function getRefreshToken() {
-  return await SecureStore.getItemAsync('refreshToken');
+    return await SecureStore.getItemAsync('refreshToken')
 }
 
 export async function deleteRefreshToken() {
-  await SecureStore.deleteItemAsync('refreshToken');
+    await SecureStore.deleteItemAsync('refreshToken')
 }

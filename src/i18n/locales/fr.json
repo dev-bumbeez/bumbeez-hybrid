@@ -1,0 +1,37 @@
+{
+    "translation": {
+        "welcome": "Bienvenue chez Bumbeez !",
+        "auth": {
+            "login": "Connexion",
+            "register": "Inscription",
+            "logout": "Déconnexion",
+            "email": "Email",
+            "password": "Mot de passe",
+            "submit": "Soumettre",
+            "connect": "Se connecter",
+            "create_account": "Créez votre compte",
+            "firstname": "Prénom",
+            "lastname": "Nom",
+            "confirm_password": "Confirmer le mot de passe",
+            "has_account": "Déjà un compte ?",
+            "connect_to_continue": "Connectez-vous à votre compte",
+            "forgot_password": "Mot de passe oublié ?",
+            "no_account": "Pas encore de compte ?",
+            "signup": "Inscrivez-vous"
+        },
+        "validation": {
+            "required_email": "L'email est obligatoire",
+            "invalid_email": "Format d'email invalide",
+            "required_password": "Le mot de passe est obligatoire",
+            "minlength_password": "Minimum 6 caractères",
+            "required_firstname": "Le prénom est obligatoire",
+            "required_lastname": "Le nom est obligatoire",
+            "password_mismatch": "Les mots de passe ne correspondent pas"
+        },
+        "refreshing_token": "Actualisation du jeton...",
+        "error": {
+            "invalid_credentials": "Email ou mot de passe invalide.",
+            "network_error": "Erreur réseau. Veuillez réessayer plus tard."
+        }
+    }
+}

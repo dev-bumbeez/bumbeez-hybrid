@@ -1,75 +1,139 @@
-import React from "react";
-import { View, Text } from "react-native";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { TextInput, Button } from "react-native-paper";
-import { loginApi } from "../../api/auth";
+import React from 'react';
+import * as ReactNative from 'react-native';
+const { View, Text, SafeAreaView, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } = ReactNative;
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
+import { useForm, Controller } from 'react-hook-form';
+import * as RNP from 'react-native-paper';
+const { TextInput, Button, HelperText, useTheme } = RNP;
 
-export default function LoginScreen({ navigation }: any) {
-  const { control, handleSubmit, formState: { errors } } = useForm({
-    resolver: zodResolver(loginSchema),
+import * as I18N from 'react-i18next';
+const { useTranslation } = I18N;
+
+const WARM_BG_CLASS = "bg-bumbeez-bg-light"; 
+const PRIMARY_TEXT_CLASS = "text-bumbeez-primary";
+
+const LoginScreen = ({ navigation }) => {
+  const paperTheme = useTheme(); 
+  const { t } = useTranslation();
+  
+  const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+    defaultValues: { 
+      email: '', 
+      password: '',
+    },
   });
 
-  const onSubmit = async (data: any) => {
-    try {
-      const res = await loginApi(data.email, data.password);
-      console.log("Login success", res);
-      // stocker accessToken + refreshToken ici (SecureStore)
-    } catch (err) {
-      console.log("Login error", err);
-    }
+  const onSubmit = (data) => {
+    console.log("Connexion en cours avec:", data);
   };
 
   return (
-    <View className="flex-1 justify-center p-4 bg-gray-100">
-      <Text className="text-3xl font-bold text-center mb-6">Login</Text>
+    <SafeAreaView className={`flex-1 ${WARM_BG_CLASS} dark:bg-gray-900`}> 
+      <KeyboardAvoidingView 
+        className="flex-1"
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} className="p-6">
+          
+          <View className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-xl space-y-4"> 
+            <View className="items-center mb-6">
+              <Text className={`text-5xl font-extrabold tracking-tight ${PRIMARY_TEXT_CLASS}`}> 
+                Bumbeez
+              </Text>
+              <Text className="text-gray-500 mt-2 text-base">
+                {t('auth.connect_to_continue')} {/* <-- Texte traduit */}
+              </Text>
+            </View>
+            <Controller
+              control={control}
+              name="email"
+              rules={{
+                pattern: { 
+                    value: /^\S+@\S+$/i, 
+                    message: t('validation.invalid_email'),
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View className="mb-2">
+                  <TextInput
+                    label={t('auth.email')}
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    mode="outlined"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    outlineColor={errors.email ? 'red' : paperTheme.colors.bumbeezInputBorder || '#E0E0E0'} 
+                    className="bg-white dark:bg-gray-800"
+                    left={<TextInput.Icon icon="email-outline" />}
+                  />
+                  <HelperText type="error" visible={!!errors.email}>
+                    {errors.email?.message}
+                  </HelperText>
+                </View>
+              )}
+            />
+            <Controller
+              control={control}
+              name="password"
+              rules={{ 
+                required: t('validation.required_password'),
+                minLength: { 
+                    value: 6, 
+                    message: t('validation.minlength_password'),
+                } 
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View>
+                  <TextInput
+                    label={t('auth.password')}
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    mode="outlined"
+                    secureTextEntry
+                    outlineColor={errors.password ? 'red' : paperTheme.colors.bumbeezInputBorder || '#E0E0E0'} 
+                    className="bg-white dark:bg-gray-800"
+                    right={<TextInput.Icon icon="eye" />}
+                    left={<TextInput.Icon icon="lock-outline" />}
+                  />
+                  <HelperText type="error" visible={!!errors.password}>
+                    {errors.password?.message}
+                  </HelperText>
+                </View>
+              )}
+            />
+            <TouchableOpacity onPress={() => console.log('Mot de passe oublié')} className="items-end mt-0 mb-4">
+              <Text className={`text-sm font-semibold ${PRIMARY_TEXT_CLASS}`}>
+                {t('auth.forgot_password')}
+              </Text>
+            </TouchableOpacity>
+            <Button
+              mode="contained"
+              onPress={handleSubmit(onSubmit)}
+              loading={isSubmitting}
+              disabled={isSubmitting}
+              labelStyle={{ fontSize: 18, fontWeight: 'bold' }} 
+              className="py-2 rounded-2xl shadow-lg" 
+            >
+              {t('auth.connect')}
+            </Button>
+            <View className="flex-row justify-center mt-6">
+              <Text className="text-gray-600 dark:text-gray-400">
+                {t('auth.no_account')}
+              </Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Register')} className="ml-2">
+                <Text className={`font-bold ${PRIMARY_TEXT_CLASS}`}>
+                  {t('auth.signup')}
+                </Text>
+              </TouchableOpacity>
+            </View>
 
-      <Controller
-        control={control}
-        name="email"
-        render={({ field: { onChange, value } }) => (
-          <TextInput
-            label="Email"
-            value={value}
-            onChangeText={onChange}
-            className="mb-4"
-            mode="outlined"
-            error={!!errors.email}
-          />
-        )}
-      />
-      {errors.email && <Text className="text-red-500 mb-2">{errors.email.message}</Text>}
-
-      <Controller
-        control={control}
-        name="password"
-        render={({ field: { onChange, value } }) => (
-          <TextInput
-            label="Password"
-            value={value}
-            onChangeText={onChange}
-            secureTextEntry
-            className="mb-4"
-            mode="outlined"
-            error={!!errors.password}
-          />
-        )}
-      />
-      {errors.password && <Text className="text-red-500 mb-2">{errors.password.message}</Text>}
-
-      <Button mode="contained" onPress={handleSubmit(onSubmit)} className="mt-4">
-        Login
-      </Button>
-
-      <Button onPress={() => navigation.navigate("Register")} className="mt-4">
-        Go to Register
-      </Button>
-    </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
-}
+};
+
+export default LoginScreen;

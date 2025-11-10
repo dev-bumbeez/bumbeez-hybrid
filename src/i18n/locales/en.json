@@ -1,0 +1,37 @@
+{
+    "translation": {
+        "welcome": "Welcome to Bumbeez!",
+        "auth": {
+            "login": "Login",
+            "register": "Register",
+            "logout": "Logout",
+            "email": "Email",
+            "password": "Password",
+            "submit": "Submit",
+            "connect": "Connect",
+            "create_account": "Create your account",
+            "firstname": "First Name",
+            "lastname": "Last Name",
+            "confirm_password": "Confirm Password",
+            "has_account": "Already have an account?",
+            "connect_to_continue": "Connect to your account",
+            "forgot_password": "Forgot password?",
+            "no_account": "Don't have an account yet? ",
+            "signup": "Sign up"
+        },
+        "validation": {
+            "required_email": "Email is required",
+            "invalid_email": "Invalid email format",
+            "required_password": "Password is required",
+            "minlength_password": "Minimum 6 characters",
+            "required_firstname": "First name is required",
+            "required_lastname": "Last name is required",
+            "password_mismatch": "Passwords do not match"
+        },
+        "refreshing_token": "Refreshing token...",
+        "error": {
+            "invalid_credentials": "Invalid email or password.",
+            "network_error": "Network error. Please try again later."
+        }
+    }
+}
