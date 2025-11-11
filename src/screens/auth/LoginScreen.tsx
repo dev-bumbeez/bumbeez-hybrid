@@ -4,10 +4,15 @@ const { View, Text, SafeAreaView, TouchableOpacity, ScrollView, KeyboardAvoiding
 
 import { useForm, Controller } from 'react-hook-form';
 import * as RNP from 'react-native-paper';
+import { login } from '@/src/api/auth';
 const { TextInput, Button, HelperText, useTheme } = RNP;
 
 import * as I18N from 'react-i18next';
 const { useTranslation } = I18N;
+
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store';
+import * as SecureStore from 'expo-secure-store';
 
 const WARM_BG_CLASS = "bg-bumbeez-bg-light"; 
 const PRIMARY_TEXT_CLASS = "text-bumbeez-primary";
@@ -22,9 +27,14 @@ const LoginScreen = ({ navigation }) => {
       password: '',
     },
   });
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken)
+  console.log('Access Token from Redux:', accessToken);
 
-  const onSubmit = (data) => {
-    console.log("Connexion en cours avec:", data);
+  const onSubmit = async (data) => {
+    console.log('Données du formulaire:', data);
+    const loginRes = await login(data.email, data.password);
+    console.log('Résultat de la connexion:', loginRes);
+    navigation.navigate("Home")
   };
 
   return (

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import * as SecureStore from "expo-secure-store"
 
 interface AuthState {
     accessToken: string | null
@@ -20,6 +21,7 @@ export const authSlice = createSlice({
         ) => {
             state.accessToken = action.payload.accessToken
             state.user = action.payload.user
+            console.log('Auth state updated:', state)
         },
         logout: (state) => {
             state.accessToken = null

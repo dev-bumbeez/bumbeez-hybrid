@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator()
 
 export default function AppNavigator() {
     const accessToken = useSelector((state: RootState) => state.auth.accessToken)
-
+    console.log('Access Token from Redux in Navigator:', accessToken);
     return (
         <NavigationContainer>
             <Stack.Navigator>

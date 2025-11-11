@@ -52,11 +52,12 @@ const RegisterScreen = ({ navigation }) => {
 
         try {
             const { firstname, lastname, email, password } = data
-            await apiRegister(firstname, lastname, email, password)
+            await apiRegister(email, password, firstname, lastname)
             const loginResponse = await apiLogin(email, password)
             const { accessToken, refreshToken, user } = loginResponse
             await SecureStore.setItemAsync("refreshToken", refreshToken)
             dispatch(setCredentials({ accessToken, user }))
+            navigation.navigate("Home")
         } catch (err: any) {
             const msg =
                 err?.response?.data?.message ||
